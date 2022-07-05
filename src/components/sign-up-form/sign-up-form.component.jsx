@@ -26,8 +26,12 @@ const SignUpForm = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target
-    //modify only van value!!
-    setFormFields({ ...formFields, [name]: value })
+    //modify only one value!!
+    setFormFields(
+      {
+        ...formFields, [name]: value
+      }
+    )
   }
 
   const handleSubmit = async (event) => {
@@ -49,7 +53,7 @@ const SignUpForm = () => {
         }
       }
     } else {
-      alert("Passwords do not match")
+      alert("Passwords do not match or less than 6 characters!")
     }
   }
 
