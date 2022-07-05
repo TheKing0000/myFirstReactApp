@@ -13,10 +13,12 @@ const removeAllItemsOfOneType = (cartItems, productToRemove) => {
 }
 
 const removeCartItem = (cartItems, productToRemove) => {
-  const indexOfObject = cartItems.findIndex((item) => {
+
+  const existingCartItem = cartItems.find((item) => {
     return item.id === productToRemove.id
   })
-  if (cartItems[indexOfObject].quantity === 1) {
+
+  if (existingCartItem.quantity === 1) {
     return cartItems.filter((item) => {
       return productToRemove.id !== item.id
     })
@@ -24,7 +26,8 @@ const removeCartItem = (cartItems, productToRemove) => {
   } else {
     return cartItems.map((item) => {
       if (item.id === productToRemove.id) {
-        item.quantity = item.quantity - 1
+
+        return { ...item, quantity: item.quantity - 1 }
       }
       return item
     })
@@ -69,11 +72,13 @@ export const CartContext = createContext(
 
 
 export const CartProvider = ({ children }) => {
+
   //GIVE IT A DEFAULT VALUE
   const [bIsCartOpen, setbIsCartOpen] = useState(false)
   const [cartItems, setCartItems] = useState([])
   const [cartCount, setCarCount] = useState(0)
   const [cartPriceSum, setCartPriceSum] = useState(0)
+
   const removeItemFromCart = (productToRemove) => {
     setCartItems(removeCartItem(cartItems, productToRemove))
   }
@@ -87,6 +92,7 @@ export const CartProvider = ({ children }) => {
   }
 
   useEffect(() => {
+    //!Hány darab item van a kosárban
     const newCarCount = cartItems.reduce((accumulator, currentValue) => {
       return accumulator + currentValue.quantity
     }, 0)
@@ -94,6 +100,7 @@ export const CartProvider = ({ children }) => {
   }, [cartItems])
 
   useEffect(() => {
+    //!kosár $ összege
     const priceSum = cartItems.reduce((accumulator, currentItem) => {
       return accumulator + currentItem.price * currentItem.quantity
     }, 0);
