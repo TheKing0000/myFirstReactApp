@@ -49,7 +49,7 @@ const addCartItem = (cartItems, productToAdd) => {
       }
     })
   }
-  //new product
+  //new product if item was NOT FOUND
   return [...cartItems, { ...productToAdd, quantity: 1 }]
 
 }
